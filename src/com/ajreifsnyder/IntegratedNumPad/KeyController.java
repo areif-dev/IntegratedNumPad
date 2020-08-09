@@ -46,7 +46,16 @@ public class KeyController implements NativeKeyListener {
 
     @Override
     public void nativeKeyPressed(NativeKeyEvent nativeKeyEvent) {
+        int code = nativeKeyEvent.getKeyCode();
 
+        if (code == 1)
+            System.exit(1);
+
+        for (int c : validCodes) {
+            if (c == code) {
+                push(code);
+            }
+        }
     }
 
     /**
@@ -55,16 +64,6 @@ public class KeyController implements NativeKeyListener {
      */
     @Override
     public void nativeKeyReleased(NativeKeyEvent nativeKeyEvent) {
-        int code = nativeKeyEvent.getKeyCode();
 
-        if (code == 1) {
-            System.exit(1);
-        }
-
-        for (int c : validCodes) {
-            if (c == code) {
-                push(code);
-            }
-        }
     }
 }
