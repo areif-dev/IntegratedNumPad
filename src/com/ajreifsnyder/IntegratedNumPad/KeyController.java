@@ -21,22 +21,26 @@ public class KeyController implements NativeKeyListener {
             KeyEvent.VK_NUMPAD1, KeyEvent.VK_NUMPAD2, KeyEvent.VK_NUMPAD3,
             KeyEvent.VK_NUMPAD0));
 
-    /**
-     * Replace the letter character with the numpad equivalent
-     * @param keycode The code taken from the JNativeHook listener
-     */
-    public void push(int keycode) {
-        try {
-            Robot robot = new Robot();
+    private Robot robot;
 
-            robot.keyPress(KeyEvent.VK_BACK_SPACE);
-            robot.keyRelease(KeyEvent.VK_BACK_SPACE);
-            robot.keyPress(validKeys.get(validCodes.indexOf(keycode)));
-            robot.keyRelease(validKeys.get(validCodes.indexOf(keycode)));
+    public KeyController() {
+        try {
+            this.robot = new Robot();
         } catch (AWTException e) {
             e.printStackTrace();
             System.exit(1);
         }
+    }
+
+    /**
+     * Replace the letter character with the numpad equivalent
+     * @param keycode The code taken from the JNativeHook listener
+     */
+    public void press(int keycode) {
+        robot.keyPress(KeyEvent.VK_BACK_SPACE);
+        robot.keyRelease(KeyEvent.VK_BACK_SPACE);
+        robot.keyPress(validKeys.get(validCodes.indexOf(keycode)));
+        robot.keyRelease(validKeys.get(validCodes.indexOf(keycode)));
     }
 
     @Override
@@ -57,7 +61,7 @@ public class KeyController implements NativeKeyListener {
 
         for (int c : validCodes) {
             if (c == code) {
-                push(code);
+                press(code);
             }
         }
     }
