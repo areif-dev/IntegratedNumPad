@@ -22,6 +22,7 @@ public class KeyController implements NativeKeyListener {
             KeyEvent.VK_NUMPAD0));
 
     private Robot robot;
+    private boolean active;
 
     public KeyController() {
         try {
@@ -30,6 +31,7 @@ public class KeyController implements NativeKeyListener {
             e.printStackTrace();
             System.exit(1);
         }
+        this.active = true;
     }
 
     /**
@@ -56,14 +58,14 @@ public class KeyController implements NativeKeyListener {
     public void nativeKeyPressed(NativeKeyEvent nativeKeyEvent) {
         int code = nativeKeyEvent.getKeyCode();
 
+//        System.out.println(code);
+
         if (code == 1)
             System.exit(1);
-
-        for (int c : validCodes) {
-            if (c == code) {
-                press(code);
-            }
-        }
+        else if (code == 70)
+            active = !active;
+        else if (active && validCodes.contains(code))
+            press(code);
     }
 
     @Override
